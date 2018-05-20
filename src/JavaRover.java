@@ -1,5 +1,5 @@
 public class JavaRover {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Robot robot = new TerrainRobot(new Position(5, 15), new Position(26, 88));
     }
 }
