@@ -130,7 +130,6 @@ abstract class Robot {
     /**
      * Verifica se o destino está perpendicular de forma horizontal, vertical ou diagonal, à posição atual do robô
      * @see Position
-     * @see Robot::isDestinyPerpendicular(Position position)
      * @return informa se está ou não perpendicular
      * */
     private boolean isDestinyPerpendicular() {
