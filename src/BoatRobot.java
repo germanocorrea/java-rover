@@ -5,7 +5,7 @@ public class BoatRobot extends Robot {
     }
 
     public boolean canStandAt(Position pos) {
-        return terreno.isPointAvailable(pos);
+        return terrain.isPointAvailable(pos);
     }
 
 }

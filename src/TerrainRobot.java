@@ -5,7 +5,7 @@ public class TerrainRobot extends Robot {
     }
 
     public boolean canStandAt(Position pos) {
-        return terreno.isGround(pos);
+        return terrain.isNavigable(pos);
     }
 
 }

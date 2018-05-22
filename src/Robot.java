@@ -1,11 +1,11 @@
 abstract class Robot {
 
     protected Position position;
-    protected Position movmentDestination;
+    protected Position movementDestination;
     protected Position finalDestination;
-    protected Terrain terreno;
+    protected Terrain terrain;
 
-    protected final String[] direcoes = {
+    protected final String[] directions = {
             "++", // direita-baixo
             "--", // esquerda-cima
             "+-", // direita-cima
@@ -19,16 +19,16 @@ abstract class Robot {
 
     public Robot(Position current, Position dest) {
         position = current;
-        movmentDestination = null;
         finalDestination = dest;
+        movementDestination = dest;
     }
 
     public void defineAlvoAtual(Position dest) {
-        movmentDestination = dest;
+        movementDestination = dest;
     }
 
     public void defineAlvoAtual() {
-        movmentDestination = finalDestination;
+        movementDestination = finalDestination;
     }
 
     public void defineRotaToDest() {
@@ -37,18 +37,13 @@ abstract class Robot {
         }
     }
 
-    /**
-    * Define a posição em que o robô deve reajustar o curso para estar perpendicular ao destino
-     * @see Position
-     * @return Position posição que é perpendicular ao destino
-    * */
-    private Position defineReadjustmentPosition() {
-        if (position.x == movmentDestination.x || position.y == movmentDestination.y)
+    public Position defineReadjustmentPosition() {
+        if (position.x == movementDestination.x || position.y == movementDestination.y)
             return position;
 
-        Position[] destinos = getMovementToReadjustment();
+        Position[] destinations = getMovementToReadjustment();
 
-        return getShortestMovementPosition(destinos);
+        return getShortestMovementPosition(destinations);
     }
 
     public Position getShortestMovementPosition(Position destinations[]) {
@@ -76,21 +71,15 @@ abstract class Robot {
         return shortest;
     }
 
-    // abstract Position getShortestMovementPositionAvailable(Position[] destinations);
     abstract boolean canStandAt(Position pos);
 
-    /**
-     * Retorna um array com as posições para reajustar a posição em cada "eixo" (horizontal, vertical ou diagonal)
-     * @see Position
-     * @return objeto Position, representando a posição de menor movimento para reajuste
-     * */
     private Position[] getMovementToReadjustment() {
         Position[] positions = new Position[8];
 
         for (int i = 0; i < 8; i++) {
-            positions[i] = new Position(position.x, position.y);
+            positions[i] = new Position(position.x, position.y, position.isNavigable());
             do {
-                parseDirectionCode(positions[i], direcoes[i]);
+                parseDirectionCode(positions[i], directions[i]);
                 if (!canStandAt(positions[i])) {
                     positions[i] = null;
                     break;
@@ -115,24 +104,13 @@ abstract class Robot {
         } // else do nothing
     }
 
-    /**
-     * Verifica se o destino está perpendicular de forma horizontal, vertical ou oblíqua, à posição informada
-     * @see Position
-     * @param position objeto da classe Position
-     * @return informa se está ou não perpendicular
-     * */
-    private boolean isDestinyPerpendicular(Position position) {
-        return  (position.x == movmentDestination.x)
-                || (position.y == movmentDestination.y)
-                || Math.abs((position.x - movmentDestination.x) / (position.y - movmentDestination.y)) == 1;
+    public boolean isDestinyPerpendicular(Position position) {
+        return  (position.x == this.position.x)
+                || (position.y == this.position.y)
+                || Math.abs((position.x - this.position.x) / (position.y - this.position.y)) == 1;
     }
 
-    /**
-     * Verifica se o destino está perpendicular de forma horizontal, vertical ou diagonal, à posição atual do robô
-     * @see Position
-     * @return informa se está ou não perpendicular
-     * */
-    private boolean isDestinyPerpendicular() {
+    public boolean isDestinyPerpendicular() {
         return isDestinyPerpendicular(this.position);
     }
 
