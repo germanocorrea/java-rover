@@ -1,7 +1,7 @@
 public class JavaRover {
 
     public static void main(String[] args) {
-        TerrainRobot robot = new TerrainRobot(new Position(33, 25, true), new Position(45, 20, true));
+        TerrainRobot robot = new TerrainRobot(new Position(39, 25, true), new Position(45, 20, true));
         Terrain surface = new Terrain(50);
 
         surface.floodSquareRegion(new int[] {6, 3}, new int[] {18, 8});
@@ -10,7 +10,8 @@ public class JavaRover {
         surface.floodSquareRegion(new int[] {39, 2}, new int[] {43, 19});
 
         robot.terrain = surface;
-        surface.addEntity(robot.position, getRobotEmoji());
+        surface.addEntity(robot.position, Position.ANSI_PURPLE + getRobotEmoji() + Position.ANSI_RESET);
+
         surface.addEntity(robot.finalDestination, Position.ANSI_RED + 'x' + Position.ANSI_RESET);
         if (!robot.isDestinyPerpendicular())
             surface.addEntity(robot.defineReadjustmentPosition(), Position.ANSI_YELLOW + '+' + Position.ANSI_RESET);

@@ -23,18 +23,18 @@ abstract class Robot {
         movementDestination = dest;
     }
 
-    public void defineAlvoAtual(Position dest) {
+    abstract boolean canStandAt(Position pos);
+
+    public void defineCurrentTarget(Position dest) {
         movementDestination = dest;
     }
 
-    public void defineAlvoAtual() {
+    public void defineCurrentTarget() {
         movementDestination = finalDestination;
     }
 
-    public void defineRotaToDest() {
-        if (!isDestinyPerpendicular()) {
-            Position newTmpPos = defineReadjustmentPosition();
-        }
+    public void defineRouteToDestiny() {
+        Position newTmpPos = !isDestinyPerpendicular() ? defineReadjustmentPosition() : this.finalDestination;
     }
 
     public Position defineReadjustmentPosition() {
@@ -70,8 +70,6 @@ abstract class Robot {
 
         return shortest;
     }
-
-    abstract boolean canStandAt(Position pos);
 
     private Position[] getMovementToReadjustment() {
         Position[] positions = new Position[8];
@@ -111,7 +109,7 @@ abstract class Robot {
     }
 
     public boolean isDestinyPerpendicular() {
-        return isDestinyPerpendicular(this.position);
+        return isDestinyPerpendicular(this.movementDestination);
     }
 
 }
