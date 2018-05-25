@@ -5,16 +5,15 @@ abstract class Robot {
     protected Position finalDestination;
     protected Terrain terrain;
 
-    protected final String[] directions = {
-            "++", // direita-baixo
-            "--", // esquerda-cima
-            "+-", // direita-cima
-            "-+", // esquerda-baixo
-
-            "+ ", // direita
-            "- ", // esquerda
-            " -", // acima
-            " +", // baixo
+    protected final Direction[][] directions = {
+            { Direction.RIGHT, Direction.DOWN},
+            { Direction.LEFT, Direction.UP},
+            { Direction.RIGHT, Direction.UP},
+            { Direction.LEFT, Direction.DOWN},
+            { Direction.RIGHT, null },
+            { Direction.LEFT, null},
+            { null, Direction.UP},
+            { null, Direction.DOWN},
     };
 
     public Robot(Position current, Position dest) {
@@ -34,7 +33,7 @@ abstract class Robot {
     }
 
     public void defineRouteToDestiny() {
-        Position newTmpPos = !isDestinyPerpendicular() ? defineReadjustmentPosition() : this.finalDestination;
+        Position newTmpPos = !isDestinyAligned() ? defineReadjustmentPosition() : this.finalDestination;
     }
 
     public Position defineReadjustmentPosition() {
@@ -77,39 +76,26 @@ abstract class Robot {
         for (int i = 0; i < 8; i++) {
             positions[i] = new Position(position.x, position.y, position.isNavigable());
             do {
-                parseDirectionCode(positions[i], directions[i]);
+                positions[i].parseDirection(directions[i][0], directions[i][1]);
                 if (!canStandAt(positions[i])) {
                     positions[i] = null;
                     break;
                 }
-            } while (!isDestinyPerpendicular(positions[i]));
+            } while (!isDestinyAligned(positions[i]));
         }
 
         return positions;
     }
 
-    protected void parseDirectionCode(Position position, String direction) {
-        if (direction.charAt(0) == '+'){
-            position.increaseAxis('x');
-        } else if (direction.charAt(0) == '-') {
-            position.decreaseAxis('x');
-        } // else do nothing
-
-        if (direction.charAt(1) == '+'){
-            position.increaseAxis('x');
-        } else if (direction.charAt(1) == '-') {
-            position.decreaseAxis('x');
-        } // else do nothing
-    }
-
-    public boolean isDestinyPerpendicular(Position position) {
+    public boolean isDestinyAligned(Position position) {
         return  (position.x == this.position.x)
                 || (position.y == this.position.y)
-                || Math.abs((position.x - this.position.x) / (position.y - this.position.y)) == 1;
+                || (position.x - this.position.y == this.position.x - position.y);
+//                || Math.abs((position.x - this.position.x) / (position.y - this.position.y)) == 1;
     }
 
-    public boolean isDestinyPerpendicular() {
-        return isDestinyPerpendicular(this.movementDestination);
+    public boolean isDestinyAligned() {
+        return isDestinyAligned(this.movementDestination);
     }
 
 }

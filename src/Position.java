@@ -44,30 +44,19 @@ public class Position {
         this.customChar = rep;
     }
 
-    public void decreaseAxis(char axis) {
-        switch (axis) {
-            case 'x' :
-                this.x--;
-                break;
-            case 'y' :
-                this.x--;
-                break;
-            case 'z':
-                this.x--;
-                this.y--;
-        }
-    }
-    public void increaseAxis(char axis) {
-        switch (axis) {
-            case 'x' :
-                this.x++;
-                break;
-            case 'y' :
-                this.x++;
-                break;
-            case 'z':
-                this.x++;
-                this.y++;
-        }
+    public void parseDirection(Direction horizontal, Direction vertical) {
+        if (horizontal == Direction.RIGHT)
+            this.x++;
+
+        else if (horizontal == Direction.LEFT)
+            this.x--;
+        // else do nothing
+
+        if (vertical == Direction.DOWN)
+            this.y++;
+
+        else if (vertical == Direction.UP)
+            this.y--;
+        // else do nothing
     }
 }

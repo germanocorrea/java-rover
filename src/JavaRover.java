@@ -13,7 +13,7 @@ public class JavaRover {
         surface.addEntity(robot.position, Position.ANSI_PURPLE + getRobotEmoji() + Position.ANSI_RESET);
 
         surface.addEntity(robot.finalDestination, Position.ANSI_RED + 'x' + Position.ANSI_RESET);
-        if (!robot.isDestinyPerpendicular())
+        if (!robot.isDestinyAligned())
             surface.addEntity(robot.defineReadjustmentPosition(), Position.ANSI_YELLOW + '+' + Position.ANSI_RESET);
 
         surface.printTerrainRepresentation();
