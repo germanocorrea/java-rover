@@ -1,19 +1,20 @@
 abstract class Robot {
 
-    protected Position position;
-    protected Position movementDestination;
-    protected Position finalDestination;
     protected Terrain terrain;
-
-    protected final Direction[][] directions = {
-            { Direction.RIGHT, Direction.DOWN},
-            { Direction.LEFT, Direction.UP},
-            { Direction.RIGHT, Direction.UP},
-            { Direction.LEFT, Direction.DOWN},
+    private Position position;
+    private Position movementDestination;
+    private Position finalDestination;
+    private Direction[] currentMovementDirection = {null, null};
+    private final int SAFE_DISTANCE = 3;
+    private final Direction[][] directions = {
+            { Direction.RIGHT, Direction.DOWN },
+            { Direction.LEFT, Direction.UP },
+            { Direction.RIGHT, Direction.UP },
+            { Direction.LEFT, Direction.DOWN },
             { Direction.RIGHT, null },
             { Direction.LEFT, null},
-            { null, Direction.UP},
-            { null, Direction.DOWN},
+            { null, Direction.UP },
+            { null, Direction.DOWN },
     };
 
     public Robot(Position current, Position dest) {
@@ -33,7 +34,25 @@ abstract class Robot {
     }
 
     public void defineRouteToDestiny() {
-        Position newTmpPos = !isDestinyAligned() ? defineReadjustmentPosition() : this.finalDestination;
+        movementDestination = !isDestinyAligned() ? defineReadjustmentPosition() : this.finalDestination;
+
+        while (safeDistanceTo(movementDestination))
+            stepAhead();
+    }
+
+    public void stepAhead() {
+        // define direcao
+//        currentMovementDirection
+    }
+
+    public boolean safeDistanceTo(Position pos) {
+        if (pos.x == this.position.x)
+            return (Math.abs(this.position.x - pos.x) < SAFE_DISTANCE);
+        else if (pos.y == this.position.y)
+            return (Math.abs(this.position.y - pos.y) < SAFE_DISTANCE);
+
+
+        return true;
     }
 
     public Position defineReadjustmentPosition() {
