@@ -34,11 +34,11 @@ public class Terrain {
     }
 
     public boolean isNavigable(Position pos) {
-        return isPointAvailable(pos) && surface[pos.x][pos.y].isNavigable();
+        return isPointAvailable(pos) && surface[pos.x - 1][pos.y - 1].isNavigable();
     }
 
     public boolean isPointAvailable(Position pos) {
-        return surface.length >= pos.x && surface[pos.x].length >= pos.y;
+        return surface.length >= pos.x && surface[pos.x - 1].length >= pos.y;
     }
 
     public void floodSquareRegion(int[] startPoint, int[]endPoint) {

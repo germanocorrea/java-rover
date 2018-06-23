@@ -10,9 +10,9 @@ public class JavaRover {
         surface.floodSquareRegion(new int[] {39, 2}, new int[] {43, 19});
 
         robot.terrain = surface;
-        surface.addEntity(robot.position, Position.ANSI_PURPLE + getRobotEmoji() + Position.ANSI_RESET);
+        surface.addEntity(robot.getPosition(), Position.ANSI_PURPLE + getRobotEmoji() + Position.ANSI_RESET);
 
-        surface.addEntity(robot.finalDestination, Position.ANSI_RED + 'x' + Position.ANSI_RESET);
+        surface.addEntity(robot.getFinalDestination(), Position.ANSI_RED + 'x' + Position.ANSI_RESET);
         if (!robot.isDestinyAligned())
             surface.addEntity(robot.defineReadjustmentPosition(), Position.ANSI_YELLOW + '+' + Position.ANSI_RESET);
 

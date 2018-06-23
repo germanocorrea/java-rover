@@ -23,6 +23,14 @@ abstract class Robot {
         movementDestination = dest;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public Position getFinalDestination() {
+        return finalDestination;
+    }
+
     abstract boolean canStandAt(Position pos);
 
     public void defineCurrentTarget(Position dest) {
