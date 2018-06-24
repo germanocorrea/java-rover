@@ -67,4 +67,15 @@ public class Position {
     public void changePositionToDirection(Direction[] direction) {
         changePositionToDirection(direction[0], direction[1]);
     }
+
+    public static int distanceBetweenPoints(Position point1, Position point2) {
+        int a = Math.abs(point1.x - point2.x);
+        int b = Math.abs(point1.y - point2.y);
+
+        if (a != 0 && b != 0)
+            return (int) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        else if (a == 0)
+            return b;
+        return a;
+    }
 }

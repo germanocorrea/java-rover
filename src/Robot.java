@@ -91,41 +91,33 @@ abstract class Robot {
 
         Position[] destinations = getMovementToReadjustment();
 
-        return getShortestMovementPosition(destinations);
+        return getBestMovementPosition(destinations);
     }
 
-    public Position getShortestMovementPosition(Position destinations[]) {
+    public Position getBestMovementPosition(Position destinations[]) {
         Position shortest = null;
         int lastPathSize = 0;
         for (Position point: destinations) {
             if (point == null) continue;
 
-            int a = Math.abs(position.x - point.x);
-            int b = Math.abs(position.y - point.y);
+            int pathSize = Position.distanceBetweenPoints(finalDestination, point) + Position.distanceBetweenPoints(position, point);
 
-            int pathSize;
-            if (a != 0 && b != 0)
-                pathSize = (int) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-            else if (a == 0)
-                pathSize = b;
-            else
-                pathSize = a;
-
-            if (shortest == null || pathSize > lastPathSize)
+            if (shortest == null || pathSize < lastPathSize) {
                 lastPathSize = pathSize;
-            shortest = point;
+                shortest = point;
+            }
         }
 
         return shortest;
     }
 
-    private Position[] getMovementToReadjustment() {
+    public Position[] getMovementToReadjustment() {
         Position[] positions = new Position[8];
 
         for (int i = 0; i < 8; i++) {
-            positions[i] = new Position(position.x, position.y, position.isNavigable());
+            positions[i] = position.clone();
             do {
-                positions[i].changePositionToDirection(directions[i][0], directions[i][1]);
+                positions[i].changePositionToDirection(directions[i]);
                 if (!canStandAt(positions[i])) {
                     positions[i] = null;
                     break;
