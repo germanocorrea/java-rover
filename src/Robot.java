@@ -137,9 +137,9 @@ abstract class Robot {
     }
 
     public boolean isDestinyAligned(Position position) {
-        return  (position.x == this.position.x)
-                || (position.y == this.position.y)
-                || (position.x - this.position.y == this.position.x - position.y);
+        return  (position.x == this.finalDestination.x)
+                || (position.y == this.finalDestination.y)
+                || (position.x - this.finalDestination.y == this.finalDestination.x - position.y);
     }
 
     public boolean isDestinyAligned() {
