@@ -48,7 +48,7 @@ public class Position {
         this.customChar = rep;
     }
 
-    public void goToDirection(Direction horizontal, Direction vertical) {
+    public void changePositionToDirection(Direction horizontal, Direction vertical) {
         if (horizontal == Direction.RIGHT)
             this.x++;
 
@@ -64,7 +64,7 @@ public class Position {
         // else do nothing
     }
 
-    public void goToDirection(Direction[] direction) {
-        goToDirection(direction[0], direction[1]);
+    public void changePositionToDirection(Direction[] direction) {
+        changePositionToDirection(direction[0], direction[1]);
     }
 }

@@ -54,7 +54,7 @@ abstract class Robot {
 
         setCurrentMovementDirection();
         Position nextStep = position.clone();
-        nextStep.goToDirection(currentMovementDirection);
+        nextStep.changePositionToDirection(currentMovementDirection);
         if (canStandAt(nextStep) && safeDistanceTo(nextStep)) {
             position = nextStep;
         } else {
@@ -125,7 +125,7 @@ abstract class Robot {
         for (int i = 0; i < 8; i++) {
             positions[i] = new Position(position.x, position.y, position.isNavigable());
             do {
-                positions[i].goToDirection(directions[i][0], directions[i][1]);
+                positions[i].changePositionToDirection(directions[i][0], directions[i][1]);
                 if (!canStandAt(positions[i])) {
                     positions[i] = null;
                     break;
