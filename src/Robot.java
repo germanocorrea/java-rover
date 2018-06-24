@@ -4,7 +4,9 @@ abstract class Robot {
     private Position position;
     private Position movementDestination;
     private Position finalDestination;
+
     private Direction[] currentMovementDirection = {null, null};
+
     private final int SAFE_DISTANCE = 3;
     private final Direction[][] directions = {
             { Direction.RIGHT, Direction.DOWN },
@@ -41,16 +43,36 @@ abstract class Robot {
         movementDestination = finalDestination;
     }
 
-    public void defineRouteToDestiny() {
-        movementDestination = !isDestinyAligned() ? defineReadjustmentPosition() : this.finalDestination;
-
-        while (safeDistanceTo(movementDestination))
+    public void stepAhead() {
+        if (movementDestination.equals(finalDestination)) {
+            movementDestination = isDestinyAligned() ? movementDestination : getReadjustmentPosition();
+        } else if (movementDestination.equals(position)) {
+            defineCurrentTarget();
             stepAhead();
+            return;
+        }
+
+        setCurrentMovementDirection();
+        Position nextStep = position.clone();
+        nextStep.goToDirection(currentMovementDirection);
+        if (canStandAt(nextStep) && safeDistanceTo(nextStep)) {
+            position = nextStep;
+        } else {
+            // rota de escape
+
+        }
     }
 
-    public void stepAhead() {
-        // define direcao
-//        currentMovementDirection
+    public void setCurrentMovementDirection() {
+        if (position.x > movementDestination.x)
+            currentMovementDirection[0] = Direction.LEFT;
+        else if (position.x < movementDestination.x)
+            currentMovementDirection[0] = Direction.RIGHT;
+
+        if (position.y > movementDestination.y)
+            currentMovementDirection[1] = Direction.UP;
+        else if (position.y < movementDestination.y)
+            currentMovementDirection[1] = Direction.DOWN;
     }
 
     public boolean safeDistanceTo(Position pos) {
@@ -63,7 +85,7 @@ abstract class Robot {
         return true;
     }
 
-    public Position defineReadjustmentPosition() {
+    public Position getReadjustmentPosition() {
         if (position.x == movementDestination.x || position.y == movementDestination.y)
             return position;
 
@@ -103,7 +125,7 @@ abstract class Robot {
         for (int i = 0; i < 8; i++) {
             positions[i] = new Position(position.x, position.y, position.isNavigable());
             do {
-                positions[i].parseDirection(directions[i][0], directions[i][1]);
+                positions[i].goToDirection(directions[i][0], directions[i][1]);
                 if (!canStandAt(positions[i])) {
                     positions[i] = null;
                     break;
@@ -118,7 +140,6 @@ abstract class Robot {
         return  (position.x == this.position.x)
                 || (position.y == this.position.y)
                 || (position.x - this.position.y == this.position.x - position.y);
-//                || Math.abs((position.x - this.position.x) / (position.y - this.position.y)) == 1;
     }
 
     public boolean isDestinyAligned() {

@@ -33,6 +33,10 @@ public class Position {
         return (pos.x == this.x && pos.y == this.y && pos.navigable == this.navigable);
     }
 
+    public Position clone() {
+        return new Position(x, y, navigable);
+    }
+
     public String getRepresentationChar() {
         if (customChar == null)
             return (this.isNavigable() ? ANSI_GREEN + '#' : ANSI_BLUE + '~') + ANSI_RESET;
@@ -44,7 +48,7 @@ public class Position {
         this.customChar = rep;
     }
 
-    public void parseDirection(Direction horizontal, Direction vertical) {
+    public void goToDirection(Direction horizontal, Direction vertical) {
         if (horizontal == Direction.RIGHT)
             this.x++;
 
@@ -58,5 +62,9 @@ public class Position {
         else if (vertical == Direction.UP)
             this.y--;
         // else do nothing
+    }
+
+    public void goToDirection(Direction[] direction) {
+        goToDirection(direction[0], direction[1]);
     }
 }
