@@ -1,7 +1,7 @@
 public class Position {
     public int x;
     public int y;
-    private boolean navigable;
+    public boolean navigable;
     private String customChar;
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -39,7 +39,7 @@ public class Position {
 
     public String getRepresentationChar() {
         if (customChar == null)
-            return (this.isNavigable() ? ANSI_GREEN + '#' : ANSI_BLUE + '~') + ANSI_RESET;
+            return (this.isNavigable() ? ANSI_GREEN + " . " : ANSI_BLUE + " ~ ") + ANSI_RESET;
 
         return customChar;
     }
@@ -48,24 +48,28 @@ public class Position {
         this.customChar = rep;
     }
 
-    public void changePositionToDirection(Direction horizontal, Direction vertical) {
+    public void changePositionToDirection(Direction horizontal, Direction vertical, int times) {
         if (horizontal == Direction.RIGHT)
-            this.x++;
+            this.x += times;
 
         else if (horizontal == Direction.LEFT)
-            this.x--;
+            this.x -= times;
         // else do nothing
 
         if (vertical == Direction.DOWN)
-            this.y++;
+            this.y += times;
 
         else if (vertical == Direction.UP)
-            this.y--;
+            this.y -= times;
         // else do nothing
     }
 
     public void changePositionToDirection(Direction[] direction) {
-        changePositionToDirection(direction[0], direction[1]);
+        changePositionToDirection(direction, 1);
+    }
+
+    public void changePositionToDirection(Direction[] direction, int times) {
+        changePositionToDirection(direction[0], direction[1], times);
     }
 
     public static int distanceBetweenPoints(Position point1, Position point2) {

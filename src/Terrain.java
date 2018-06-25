@@ -6,16 +6,6 @@ public class Terrain {
         fillWithGround(resolution, resolution);
     }
 
-    public Terrain(int resolutionX, int resolutionY) {
-        surface = new Position[resolutionY][resolutionX];
-        fillWithGround(resolutionX, resolutionY);
-    }
-
-    public Terrain(Position[][] surface) {
-        this.surface = surface;
-        fillWithGround(surface.length, surface[0].length);
-    }
-
     public void printTerrainRepresentation() {
         String surfaceLine;
         for (Position[] line: surface) {
@@ -35,13 +25,13 @@ public class Terrain {
 
     public boolean isNavigable(Position pos) {
         return isPointAvailable(pos) &&
-                surface.length -1 >= pos.x &&
-                surface[0].length -1 >= pos.y &&
-                surface[pos.x][pos.y].isNavigable();
+                surface.length -1 >= pos.y &&
+                surface[0].length -1 >= pos.x &&
+                surface[pos.y][pos.x].isNavigable();
     }
 
     public boolean isPointAvailable(Position pos) {
-        return surface.length -1 >= pos.x && surface[0].length - 1 >= pos.y;
+        return surface.length -1 >= pos.y && surface[0].length - 1 >= pos.x;
     }
 
     public void floodSquareRegion(int[] startPoint, int[]endPoint) {
@@ -52,10 +42,7 @@ public class Terrain {
     }
 
     public void addEntity(Position entityPos, String representation) {
-        surface[entityPos.x][entityPos.y].setRepresentationChar(representation);
+        surface[entityPos.y][entityPos.x].setRepresentationChar(representation);
     }
 
-    public void addEntity(Position entityPos, char representation) {
-        addEntity(entityPos, representation + "");
-    }
 }
