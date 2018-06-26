@@ -1,5 +1,7 @@
 public class TerrainRobot extends Robot {
 
+    private Direction[] lastDirection = {null, null};
+
     public TerrainRobot(Position current, Position dest) {
         super(current, dest);
     }
@@ -35,16 +37,23 @@ public class TerrainRobot extends Robot {
             direction[0] = null;
 
             // FIXME: daqui pra baixo era pra tentar pegar uma manobra de evasão quando o destino ta alinhado horizontal ou verticalmente mas não funciona
-        } else if (direction[0] != null && !isRouteBlockedAt(direction[0])) {
-            direction[0] = null;
-            direction[1] = Direction.UP;
+        } else {
+            if (lastDirection[0] != null || lastDirection[1] != null) {
+                direction = lastDirection;
+                if (direction[0] != null && !isRouteBlockedAt(direction[0])) {
+                    direction[0] = null;
+                    direction[1] = Direction.UP;
 
-        } else if (direction[1] != null && !isRouteBlockedAt(direction[1])) {
-            direction[1] = null;
-            direction[0] = Direction.LEFT;
+                } else if (direction[1] != null && !isRouteBlockedAt(direction[1])) {
+                    direction[1] = null;
+                    direction[0] = Direction.RIGHT;
+                }
+            }
+
         }
 
         nextPos.changePositionToDirection(direction);
+        lastDirection = direction;
         movementDestination = nextPos;
     }
 

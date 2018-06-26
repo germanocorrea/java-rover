@@ -43,11 +43,13 @@ public class JavaRover {
 
         boolean notDone = true;
         robot.defineCurrentTarget();
+        int i = 0;
         while (notDone) {
             robot.stepAhead();
-            if (robot.getPosition().equals(robot.getFinalDestination()))
+            if (robot.getPosition().equals(robot.getFinalDestination()) || i == 150)
                 notDone = false;
             else surface.addEntity(robot.getPosition(), Position.ANSI_YELLOW + " + " + Position.ANSI_RESET);
+            i++;
         }
 
     }
