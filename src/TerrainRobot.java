@@ -34,6 +34,7 @@ public class TerrainRobot extends Robot {
         } else if (direction[0] != null && !isRouteBlockedAt(direction[0]) && direction[1] != null) {
             direction[0] = null;
 
+            // FIXME: daqui pra baixo era pra tentar pegar uma manobra de evasão quando o destino ta alinhado horizontal ou verticalmente mas não funciona
         } else if (direction[0] != null && !isRouteBlockedAt(direction[0])) {
             direction[0] = null;
             direction[1] = Direction.UP;
